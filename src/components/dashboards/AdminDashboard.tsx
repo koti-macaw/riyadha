@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { CourseDetailsModal } from '../CourseDetailsModal';
+import { AIAnalyticsDashboard } from './AIAnalyticsDashboard';
 
 interface AdminStats {
   totalUsers: number;
@@ -53,6 +54,7 @@ export const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAIDashboard, setShowAIDashboard] = useState(false);
 
   const sidebarItems = [
     { id: 'dashboard', icon: Home, label: 'Dashboard', labelAr: 'لوحة التحكم' },
@@ -64,6 +66,7 @@ export const AdminDashboard: React.FC = () => {
     { id: 'collaboration-engagement', icon: MessageSquare, label: 'Collaboration Engagement', labelAr: 'مشاركة التعاون' },
     { id: 'work-satisfaction', icon: Briefcase, label: 'Work Satisfaction', labelAr: 'رضا العمل' },
     { id: 'platform-adoption', icon: Smartphone, label: 'Platform Adoption', labelAr: 'اعتماد المنصة' }
+    { id: 'ai-analytics', icon: Brain, label: 'AI Analytics Dashboard', labelAr: 'لوحة تحكم الذكاء الاصطناعي' }
   ];
 
   useEffect(() => {
@@ -301,6 +304,11 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
+  // Show AI Dashboard if selected
+  if (showAIDashboard || activeSection === 'ai-analytics') {
+    return <AIAnalyticsDashboard />;
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -356,6 +364,13 @@ export const AdminDashboard: React.FC = () => {
               <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 <Download className="w-4 h-4" />
                 Export
+              </button>
+              <button 
+                onClick={() => setShowAIDashboard(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+              >
+                <Brain className="w-4 h-4" />
+                AI Analytics
               </button>
             </div>
           </div>
